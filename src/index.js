@@ -20,9 +20,13 @@ const resolvers = {
 	Query: {
 		info: () => 'This is the API of a Hackernews Clone',
 		feed: () => links,
+		// link: (parent, args) => {
+		// 	const link = links.filter(x => x.id === args.id)
+		// 	return link[0]
+		// }
 	},
 	Mutation: {
-		post: (parent, args) => {
+		createLink: (parent, args) => {
 			const link = {
 				id: `link-${idCount++}`,
 				description: args.description,
@@ -30,7 +34,20 @@ const resolvers = {
 			}
 			links.push(link)
 			return link
-		}
+		},
+		// updateLink: (parent, args) => {
+		// 	const link = {
+		// 		description: args.description,
+		// 		url: args.url,
+		// 	}
+		// },
+		// deleteLink: (parent, args) => {
+		// 	return links.map(x => {
+		// 		if (x.id !== args.id) {
+		// 			return x
+		// 		}
+		// 	})
+		// }
 	},
 	Link: {
 		id: (parent) => parent.id,

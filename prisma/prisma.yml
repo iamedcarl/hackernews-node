@@ -1,0 +1,10 @@
+# The HTTP endpoint for Primsa API
+endpoint: https://us1.prisma.sh/edcarl-adraincem-177c1f/hackernews-node/dev
+
+# Points to the file that contains datamodel
+datamodel: datamodel.prisma
+
+# Specifies language & location for the generated Prima client
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma-client
