@@ -1,39 +1,23 @@
-const { GraphQLServer } = require('graphql-yoga');
-
-// Temporaryily storing in-memory rather than being persisted in a database
-let links = [
-	{
-		id: 'link-0',
-		url: 'www.howtographql.com',
-		description: 'Fullstack Tutorial for GraphQL'
-	},
-	{
-		id: 'link-1',
-		url: 'www.edcarladraincem.com',
-		description: 'Personal Site of Edcarl Adraincem'
-	}
-]
-
-let idCount = links.length
+const { GraphQLServer } = require('graphql-yoga')
+const { prisma } = require('./generated/prisma-client')
 
 const resolvers = {
 	Query: {
 		info: () => 'This is the API of a Hackernews Clone',
-		feed: () => links,
+		feed: (root, args, context, info) => {
+			return context.prisma.links()
+		},
 		// link: (parent, args) => {
 		// 	const link = links.filter(x => x.id === args.id)
 		// 	return link[0]
 		// }
 	},
 	Mutation: {
-		createLink: (parent, args) => {
-			const link = {
-				id: `link-${idCount++}`,
-				description: args.description,
+		post: (root, args, context) => {
+			return context.prisma.createLink({
 				url: args.url,
-			}
-			links.push(link)
-			return link
+				description: args.description
+			})
 		},
 		// updateLink: (parent, args) => {
 		// 	const link = {
